@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Accessibility</title>
+  </head>
+  <body>
+    <!-- “Last name” is now defined as a label, and is explicitly associated with the form field because the label’s for attribute and the input’s id attribute share the same value. -->
+    <div>
+      <label for="last_name">Last name:</label>
+      <input type="text" name="last_name" id="last_name" />
+    </div>
+    <br />
+    <br />
+
+    <!-- Only one <label> element is allowed per form field. However, if additional help text is available, it can be associated with the form field using the aria-describedby attribute. Screen readers will announce both the label and help text when the form field has focus. -->
+    <label for="DOB">Date of birth:</label>
+    <input type="text" name="birthdate" id="DOB" aria-describedby="DOB-help" />
+    <span id="DOB-help">MM/DD/YYYY</span>
+    <br />
+    <br />
+
+    <!-- For groups of related fields such as radio buttons and checkboxes, each form field must have a label as described in the previous section. However, that prompt alone can be meaningless if the user doesn’t know the question. The technique for addressing this problem is to group these elements together using a <fieldset> element, then use a <legend> element to markup the question, as in the following example: -->
+    <fieldset>
+      <legend>What is your favorite color?</legend>
+      <div>
+        <input type="radio" name="color" value="Red" id="color_red" />
+        <label for="color_red">Red</label>
+      </div>
+      <div>
+        <input type="radio" name="color" value="Green" id="color_green" />
+        <label for="color_green">Green</label>
+      </div>
+      <div>
+        <input type="radio" name="color" value="Blue" id="color_blue" />
+        <label for="color_blue">Blue</label>
+      </div>
+    </fieldset>
+    <br />
+    <br />
+
+    <!-- Matching for and id values associate the label with its form control. Because id attribute values must be unique on each page, a form control can only have one associated <label>.
+
+      You can also create the association by placing the label text and the input within the <label> element (and not using for and id). -->
+
+    <label for="name">Name:</label>
+    <input id="name" type="text" autocomplete="name" />
+    <br />
+    <br />
+    <label>Name: <input type="text" autocomplete="name" /></label>
+    <br />
+    <br />
+    <!-- text area -->
+    <label for="address">Enter your address:</label><br />
+    <textarea id="address" autocomplete="street-address"></textarea>
+    <br />
+    <br />
+    <!-- The <fieldset> contains the group of checkboxes, and the <legend> labels the group. Screen readers may repeat the legend for each control in the group, so the legend text should be brief and descriptive. -->
+    <fieldset>
+      <legend>Select your pizza toppings:</legend>
+      <input id="ham" type="checkbox" name="toppings" value="ham" />
+      <label for="ham">Ham</label><br />
+      <input id="pepperoni" type="checkbox" name="toppings" value="pepperoni" />
+      <label for="pepperoni">Pepperoni</label><br />
+      <input id="mushrooms" type="checkbox" name="toppings" value="mushrooms" />
+      <label for="mushrooms">Mushrooms</label><br />
+      <input id="olives" type="checkbox" name="toppings" value="olives" />
+      <label for="olives">Olives</label>
+    </fieldset>
+    <br />
+    <br />
+    <!-- radio buttons -->
+    <!-- Fieldset and legend should only be used when a higher-level label is necessary. Single checkboxes or basic radio buttons that make sense from their labels alone do not require fieldset and legend. -->
+    <fieldset>
+      <legend>Choose a shipping method:</legend>
+      <input id="overnight" type="radio" name="shipping" value="overnight" />
+      <label for="overnight">Overnight</label><br />
+      <input id="twoday" type="radio" name="shipping" value="twoday" />
+      <label for="twoday">Two day</label><br />
+      <input id="ground" type="radio" name="shipping" value="ground" />
+      <label for="ground">Ground</label>
+    </fieldset>
+    <br />
+    <br />
+    <!-- Other <input> types – password, file, date and time (and various data/time alternatives), email, tel, url, number, color, and range – must also have associated descriptive text using <label> elements. -->
+    <label for="favcity">Which is your favorite city?</label>
+    <select id="favcity" name="select">
+      <option value="1">Amsterdam</option>
+      <option value="2">Buenos Aires</option>
+      <option value="3">Delhi</option>
+      <option value="4">Hong Kong</option>
+      <option value="5">London</option>
+      <option value="6">Los Angeles</option>
+      <option value="7">Moscow</option>
+      <option value="8">Mumbai</option>
+      <option value="9">New York</option>
+      <option value="10">São Paulo</option>
+      <option value="11">Tokyo</option>
+    </select>
+    <br />
+    <br />
+    <!-- Long lists of options can be grouped with <optgroup>. However, since <optgroup> is sometimes ignored in the screen reader environment, don't rely on this technique to convey vital context. -->
+
+    <label for="favcity2">Which is your favorite city?</label>
+    <select id="favcity2" name="favcity2">
+      <optgroup label="Asia">
+        <option value="3">Delhi</option>
+        <option value="4">Hong Kong</option>
+        <option value="8">Mumbai</option>
+        <option value="11">Tokyo</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="1">Amsterdam</option>
+        <option value="5">London</option>
+        <option value="7">Moscow</option>
+      </optgroup>
+      <optgroup label="North America">
+        <option value="6">Los Angeles</option>
+        <option value="9">New York</option>
+      </optgroup>
+      <optgroup label="South America">
+        <option value="2">Buenos Aires</option>
+        <option value="10">São Paulo</option>
+      </optgroup>
+    </select>
+    <br />
+    <br />
+    <!-- Avoid using multiple-select menus. Not all browsers provide intuitive keyboard navigation for them. Many users do not know to use Control/Command or Shift + click to select multiple items. A group of checkboxes provides similar functionality in a more accessible way. -->
+
+    <!-- Screen readers announce the nested text for <button> elements, and the value attribute for input buttons. Form buttons must never be empty. -->
+    <input type="submit" name="submit" value="Submit Search" />
+    <input type="reset" name="reset" value="Reset" />
+    <button>Activate</button>
+    <br />
+    <br />
+    <!-- Reset buttons should not be used unless specifically needed, because they are easy to click by mistake. -->
+
+    <!-- Form fields collecting certain types of user-specific information need appropriate autocomplete attributes to identify input purpose. Users can benefit when common field types (name, address, birthdate, etc.) are represented consistently across the web. The ability to programmatically determine the purpose of each field makes filling out forms easier, especially for people with cognitive disabilities. -->
+    <label for="name2">Name:</label>
+    <input id="name2" type="text" autocomplete="name" />
+    <br />
+    <br />
+    <!-- If the indication that a field is required is presented outside the input label, applying the aria-required="true" attribute will cause screen readers to announce "required" along with the label text. No validation or "enforcement" mechanism comes along with this attribute, and it has no visual impact. -->
+    <input id="name3" type="text" autocomplete="name" aria-required="true" />
+  </body>
+</html>
